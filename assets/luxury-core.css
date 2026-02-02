@@ -120,11 +120,27 @@ h3,
   height: 100%;
 }
 
-/* Glassmorphism Header */
-header.scrolled {
+/* Maison Luxe Fixed Header */
+.header-wrapper {
+  position: fixed !important;
+  top: 2rem;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  transition: var(--transition-smooth);
+  background: transparent !important;
+}
+
+.header-wrapper.scrolled {
+  top: 0 !important;
   background: rgba(249, 248, 246, 0.95) !important;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Ensure announcement bar doesn't push header down if it's supposed to be under it or fixed */
+.section-header {
+  position: static !important;
 }
 
 .luxury-reveal {
@@ -133,6 +149,7 @@ header.scrolled {
   transition: var(--transition-smooth);
 }
 
+.luxury-reveal.active,
 .luxury-reveal.visible {
   opacity: 1;
   transform: translateY(0);
