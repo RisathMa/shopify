@@ -1,107 +1,136 @@
-/* Luxury Core CSS - Dior/Off-White Aesthetic */
+/* Luxury Core CSS - Maison Luxe Prototype Match */
 
 :root {
-  /* -- Luxury Color System -- */
-  --luxury-black: #050505;
-  --luxury-charcoal: #1a1a1a;
-  --luxury-ivory: #fcfbf9;
-  --luxury-gold: #D4AF37;
-  --luxury-silver: #E5E5E5;
+  /* -- Maison Luxe Prototype Colors -- */
+  --color-black: #0A0A0A;
+  --color-off-white: #F9F8F6;
+  --color-gold: #C5A059;
+  --color-charcoal: #1A1A1A;
 
-  /* -- Advanced Colorful Accents -- */
-  --luxury-gradient: linear-gradient(135deg, #fcfbf9 0%, #f5f5f5 100%);
-  --luxury-accent-glow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  --luxury-glass: rgba(255, 255, 255, 0.7);
-  --luxury-glass-border: rgba(255, 255, 255, 0.3);
+  --luxury-black: var(--color-black);
+  --luxury-ivory: var(--color-off-white);
+  --luxury-gold: var(--color-gold);
 
-  /* -- Premium Spacing -- */
-  --spacing-editorial: 12rem;
-  /* Large spacing for cinematic effect */
-  --spacing-grid: 4rem;
-
-  /* -- Typography Adjustments -- */
-  --font-heading-family: 'Didot', 'Bodoni MT', 'Playfair Display', serif;
-  --font-body-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* -- Typography -- */
+  --font-heading-family: 'Playfair Display', serif;
+  --font-body-family: 'Inter', sans-serif;
 
   /* -- Animations -- */
-  --ease-luxury: cubic-bezier(0.19, 1, 0.22, 1);
-  --duration-luxury: 0.8s;
+  --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* -- Spacing -- */
+  --spacing-editorial: 10rem;
+  --spacing-grid: 3rem;
 }
 
-/* -- Advanced Utility Classes -- */
-.glass-effect {
-  background: var(--luxury-glass);
-  backdrop-filter: blur(15px);
-  border: 1px solid var(--luxury-glass-border);
-  box-shadow: var(--luxury-accent-glow);
+/* Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
 }
 
-.text-gradient {
-  background: linear-gradient(90deg, #050505, #D4AF37);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+::-webkit-scrollbar-track {
+  background: var(--color-off-white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-black);
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--luxury-ivory);
-  color: var(--luxury-black);
+  background-color: var(--color-off-white);
+  color: var(--color-black);
 }
 
 body {
+  font-family: var(--font-body-family);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
   overflow-x: hidden;
 }
 
-/* -- Original Luxury Overrides -- */
 h1,
 h2,
 h3,
-h4,
-h5,
 .h0,
 .h1,
-.h2 {
+.h2,
+.luxury-heading {
   font-family: var(--font-heading-family);
-  font-weight: 400;
   letter-spacing: -0.02em;
-  line-height: 1.1;
-  color: var(--luxury-black);
+  color: var(--color-black);
+  font-weight: 400;
 }
 
-.button,
-.shopify-payment-button__button--unbranded {
-  border-radius: 0 !important;
+/* Custom Cursor Logic */
+.custom-cursor {
+  width: 12px;
+  height: 12px;
+  background: var(--color-black);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: transform 0.2s ease;
+  display: none;
+  /* Hidden on mobile */
+}
+
+@media screen and (min-width: 990px) {
+  .custom-cursor {
+    display: block;
+  }
+}
+
+/* Maison Luxe Utilities */
+.btn-luxury {
+  position: relative;
+  padding: 12px 32px;
+  border: 1px solid var(--color-black);
+  overflow: hidden;
+  transition: var(--transition-smooth);
+  display: inline-block;
   text-transform: uppercase;
-  font-family: var(--font-body-family);
-  font-weight: 500;
+  font-size: 0.75rem;
   letter-spacing: 0.1em;
-  transition: all 0.4s var(--ease-luxury);
-  border: 1px solid var(--luxury-black);
-  background: transparent;
-  color: var(--luxury-black);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-black);
+  z-index: 1;
 }
 
-.button:hover {
-  background: var(--luxury-black);
-  color: var(--luxury-ivory);
-  transform: translateY(-2px);
+.btn-luxury::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: var(--color-black);
+  transition: var(--transition-smooth);
+  z-index: -1;
 }
 
-.card__media img {
-  transition: transform 1.2s var(--ease-luxury) !important;
+.btn-luxury:hover {
+  color: white !important;
 }
 
-.card:hover .card__media img {
-  transform: scale(1.03);
+.btn-luxury:hover::after {
+  height: 100%;
+}
+
+/* Glassmorphism Header */
+header.scrolled {
+  background: rgba(249, 248, 246, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .luxury-reveal {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 1s var(--ease-luxury), transform 1s var(--ease-luxury);
+  transition: var(--transition-smooth);
 }
 
 .luxury-reveal.visible {

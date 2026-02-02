@@ -87,10 +87,7 @@
         {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg gender-split__media' }}
       {%- endif -%}
       
-      <div class="gender-split__content">
-        <h3 class="gender-split__heading h2">{{ block.settings.heading }}</h3>
-        <span class="gender-split__link-text">{{ block.settings.link_label }}</span>
-      </div>
+
     </a>
   {%- endfor -%}
 </div>

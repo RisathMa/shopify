@@ -1,64 +1,69 @@
 /**
- * Luxury UX Interactions
- * - Sticky Header Glassmorphism
- * - Scroll Reveal Animations
- * - Smooth Scroll behavior
+ * Luxury UX - Maison Luxe Prototype Logic
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initStickyHeader();
-  initScrollReveal();
-  initSmoothScroll();
+    initCustomCursor();
+    initStickyHeader();
+    initScrollReveal();
+    initParallax();
 });
 
-function initStickyHeader() {
-  const header = document.querySelector('.header-wrapper') || document.querySelector('header');
-  if (!header) return;
+function initCustomCursor() {
+    const cursor = document.getElementById('cursor');
+    if (!cursor) return;
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      header.classList.add('scrolled');
-      document.body.classList.add('is-scrolled');
-    } else {
-      header.classList.remove('scrolled');
-      document.body.classList.remove('is-scrolled');
-    }
-  });
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+
+    document.querySelectorAll('a, button, .btn-luxury').forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            cursor.style.transform = 'scale(4)';
+            cursor.style.background = 'rgba(0,0,0,0.1)';
+        });
+        item.addEventListener('mouseleave', () => {
+            cursor.style.transform = 'scale(1)';
+            cursor.style.background = 'var(--color-black)';
+        });
+    });
+}
+
+function initStickyHeader() {
+    const header = document.querySelector('.header-wrapper') || document.querySelector('header');
+    if (!header) return;
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
 }
 
 function initScrollReveal() {
-  const options = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px"
-  };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
+    document.querySelectorAll('.luxury-reveal, .reveal').forEach(el => {
+        el.classList.add('luxury-reveal');
+        observer.observe(el);
     });
-  }, options);
-
-  // Target elements to reveal
-  const revealElements = document.querySelectorAll('.luxury-reveal, .luxury-hero__heading, .luxury-product-card');
-  revealElements.forEach(el => {
-    el.classList.add('luxury-reveal'); // Ensure class exists
-    observer.observe(el);
-  });
 }
 
-function initSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth'
-        });
-      }
+function initParallax() {
+    const heroImage = document.querySelector('.luxury-hero__media img');
+    if (!heroImage) return;
+
+    window.addEventListener('scroll', () => {
+        const scrollVal = window.pageYOffset;
+        heroImage.style.transform = `translateY(${scrollVal * 0.4}px)`;
     });
-  });
 }

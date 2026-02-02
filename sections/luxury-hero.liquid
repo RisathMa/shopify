@@ -131,28 +131,7 @@
 
   <div class="luxury-hero__overlay"></div>
 
-  <div class="luxury-hero__content">
-    {%- if section.settings.subheading != blank -%}
-      <div class="luxury-hero__subheading">{{ section.settings.subheading }}</div>
-    {%- endif -%}
-    
-    {%- if section.settings.heading != blank -%}
-      <h2 class="luxury-hero__heading">{{ section.settings.heading }}</h2>
-    {%- endif -%}
-    
-    <div class="luxury-hero__buttons">
-      {%- if section.settings.button_label_1 != blank -%}
-        <a href="{{ section.settings.button_link_1 }}" class="button button--primary">
-          {{ section.settings.button_label_1 }}
-        </a>
-      {%- endif -%}
-      {%- if section.settings.button_label_2 != blank -%}
-        <a href="{{ section.settings.button_link_2 }}" class="button button--secondary">
-          {{ section.settings.button_label_2 }}
-        </a>
-      {%- endif -%}
-    </div>
-  </div>
+
   
   <div class="luxury-hero__scroll">Scrolldown</div>
 </div>
