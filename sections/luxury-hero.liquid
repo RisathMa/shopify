@@ -131,7 +131,28 @@
 
   <div class="luxury-hero__overlay"></div>
 
-
+  <div class="luxury-hero__content">
+    {%- if section.settings.subheading != blank -%}
+      <p class="luxury-hero__subheading reveal lowercase tracking-[0.4em] text-[10px] mb-6">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+    
+    {%- if section.settings.heading != blank -%}
+      <h1 class="luxury-hero__heading reveal text-6xl md:text-9xl mb-12" style="font-family: var(--font-heading-family);">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+    
+    <div class="luxury-hero__buttons reveal">
+      {%- if section.settings.button_label_1 != blank -%}
+        <a href="{{ section.settings.button_link_1 }}" class="btn-luxury bg-transparent border-white text-white hover:text-black">
+          {{ section.settings.button_label_1 }}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.button_label_2 != blank -%}
+        <a href="{{ section.settings.button_link_2 }}" class="btn-luxury bg-white border-white text-black">
+          {{ section.settings.button_label_2 }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
   
   <div class="luxury-hero__scroll">Scrolldown</div>
 </div>

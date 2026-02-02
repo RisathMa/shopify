@@ -87,7 +87,13 @@
         {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg gender-split__media' }}
       {%- endif -%}
       
-
+      <div class="gender-split__content w-full flex justify-between items-end pr-16" style="left: 0; bottom: 0; padding: 4rem; text-shadow: none; color: white;">
+        <div>
+          <h3 class="gender-split__heading text-3xl italic mb-2" style="font-family: var(--font-heading-family); color: white;">{{ block.settings.heading }}</h3>
+          <p class="text-xs uppercase tracking-widest opacity-60">Architectural tailoring</p>
+        </div>
+        <span class="gender-split__link-text text-[10px] uppercase tracking-widest border-b border-white pb-1 hover:opacity-50 transition-opacity" style="border-bottom: 1px solid white; color: white;">{{ block.settings.link_label }}</span>
+      </div>
     </a>
   {%- endfor -%}
 </div>
