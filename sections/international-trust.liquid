@@ -1,0 +1,124 @@
+
+{{ 'luxury-core.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .app-trust {
+    border-top: 1px solid #f5f5f5;
+    border-bottom: 1px solid #f5f5f5;
+    padding: 3rem 0;
+    margin: var(--spacing-grid) 0;
+  }
+  
+  .app-trust__grid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+    text-align: center;
+  }
+  
+  .app-trust__item {
+    flex: 1 1 200px;
+    padding: 0 1rem;
+  }
+  
+  .app-trust__icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+  
+  .app-trust__title {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .app-trust__text {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.4;
+    max-width: 250px;
+    margin: 0 auto;
+  }
+{%- endstyle -%}
+
+<div class="app-trust page-width">
+  <div class="app-trust__grid">
+    {%- for block in section.blocks -%}
+      <div class="app-trust__item">
+        {%- if block.settings.icon_svg != blank -%}
+          <div class="app-trust__icon">{{ block.settings.icon_svg }}</div>
+        {%- endif -%}
+        <h3 class="app-trust__title">{{ block.settings.title }}</h3>
+        <div class="app-trust__text">{{ block.settings.text }}</div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "International Trust",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Trust Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Worldwide Shipping",
+          "label": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "default": "Express delivery to 100+ countries with duties included.",
+          "label": "Text"
+        },
+        {
+          "type": "html",
+          "id": "icon_svg",
+          "label": "SVG Icon",
+          "info": "Paste SVG code here"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "International Trust",
+      "blocks": [
+        {
+          "type": "column",
+          "settings": {
+            "title": "Worldwide Shipping",
+            "text": "Complimentary express shipping on all orders."
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "title": "Secure Payment",
+            "text": "Transactions are 100% secure and encrypted."
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "title": "Duties & Taxes",
+            "text": "All duties and taxes included in the price."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

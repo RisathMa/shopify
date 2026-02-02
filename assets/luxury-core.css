@@ -1,0 +1,139 @@
+/* Luxury Core CSS - Dior/Off-White Aesthetic */
+
+:root {
+  /* -- Luxury Color System -- */
+  --luxury-black: #050505;
+  --luxury-charcoal: #1a1a1a;
+  --luxury-ivory: #fcfbf9;
+  --luxury-gold: #D4AF37;
+  --luxury-silver: #E5E5E5;
+  
+  /* -- Premium Spacing -- */
+  --spacing-editorial: 12rem; /* Large spacing for cinematic effect */
+  --spacing-grid: 4rem;
+  
+  /* -- Typography Adjustments -- */
+  /* Fallbacks will be replaced by user font settings, but these default to system premium fonts */
+  --font-heading-family: 'Didot', 'Bodoni MT', 'Playfair Display', serif;
+  --font-body-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  
+  /* -- Animations -- */
+  --ease-luxury: cubic-bezier(0.19, 1, 0.22, 1); /* Apple-style 'smooth' ease */
+  --duration-luxury: 0.8s;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--luxury-ivory);
+  color: var(--luxury-black);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; 
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* -- Typography Overrides -- */
+h1, h2, h3, h4, h5, .h0, .h1, .h2 {
+  font-family: var(--font-heading-family);
+  font-weight: 400; /* Luxury is rarely bold */
+  letter-spacing: -0.02em; /* Tight editorial tracking */
+  line-height: 1.1;
+  color: var(--luxury-black);
+}
+
+.hxl, .h0 {
+  letter-spacing: -0.04em; 
+}
+
+/* -- UI Polish -- */
+.button, .shopify-payment-button__button--unbranded {
+  border-radius: 0 !important; /* Sharp edges for luxury */
+  text-transform: uppercase;
+  font-family: var(--font-body-family);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  transition: all 0.4s var(--ease-luxury);
+  border: 1px solid var(--luxury-black);
+  background: transparent;
+  color: var(--luxury-black);
+}
+
+.button:hover, .shopify-payment-button__button--unbranded:hover {
+  background: var(--luxury-black);
+  color: var(--luxury-ivory);
+  transform: translateY(-2px); /* Subtle lift */
+  box-shadow: none !important;
+}
+
+.button--secondary {
+  border-color: var(--luxury-ivory);
+  color: var(--luxury-ivory);
+}
+
+/* -- Card Polish -- */
+.card {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.card__media {
+  border-radius: 0 !important;
+  overflow: hidden;
+}
+
+.card__media img {
+  transition: transform 1.2s var(--ease-luxury) !important;
+}
+
+.card:hover .card__media img {
+  transform: scale(1.03); /* Cinematic slow zoom */
+}
+
+.card__heading {
+  font-family: var(--font-body-family) !important;
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-top: 1.5rem;
+}
+
+/* -- Micro Interactions -- */
+/* Fade in elements on scroll (requires simple JS observer, but basic CSS setup) */
+.luxury-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s var(--ease-luxury), transform 1s var(--ease-luxury);
+}
+
+.luxury-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* -- Header Polish -- */
+.header {
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  transition: background-color 0.4s ease;
+}
+
+.header.scrolled {
+  background-color: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+}
+
+/* -- Remove generic Shopify elements -- */
+.badge {
+  border-radius: 0;
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: var(--luxury-black);
+  color: #fff;
+}

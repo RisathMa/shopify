@@ -1,0 +1,108 @@
+
+{{ 'luxury-core.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .brand-story {
+    padding: var(--spacing-editorial) 0;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .brand-story__eyebrow {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    margin-bottom: 2rem;
+    color: #666;
+  }
+  
+  .brand-story__heading {
+    font-size: 3.5rem; /* Large magazine heading */
+    line-height: 1.1;
+    margin-bottom: 3rem;
+  }
+  
+  .brand-story__text {
+    font-size: 1.4rem;
+    line-height: 1.8;
+    color: #333;
+    column-count: 1;
+  }
+  
+  @media screen and (min-width: 750px) {
+    .brand-story__text {
+      column-count: 2; /* Editorial two-column text */
+      column-gap: 4rem;
+      text-align: justify;
+    }
+    
+    .brand-story__heading {
+      font-size: 4.5rem;
+    }
+  }
+  
+  .brand-story__signature {
+    margin-top: 4rem;
+    font-family: cursive; /* Replace with actual signature image if available */
+    font-size: 2rem;
+    color: var(--luxury-gold);
+  }
+{%- endstyle -%}
+
+<div class="brand-story page-width luxury-reveal">
+  {%- if section.settings.eyebrow != blank -%}
+    <div class="brand-story__eyebrow">{{ section.settings.eyebrow }}</div>
+  {%- endif -%}
+  
+  <h2 class="brand-story__heading h1">{{ section.settings.heading }}</h2>
+  
+  <div class="brand-story__text">
+    {{ section.settings.text }}
+  </div>
+  
+  {%- if section.settings.show_signature -%}
+    <div class="brand-story__signature">
+      {{ shop.name }}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Brand Story",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "default": "Since 2024",
+      "label": "Eyebrow Text"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Redefining Modern Luxury",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "default": "<p>We believe in the power of silence in a noisy world. Our collections are designed for the confident, the global, and the discerning. Crafted with obsession-level attention to detail, every piece tells a story of heritage meeting future.</p><p>From our atelier in Paris to the streets of Tokyo, we bring you a uniform for the modern age. No compromises. Just pure aesthetic.</p>",
+      "label": "Story Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_signature",
+      "default": true,
+      "label": "Show Signature"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Story"
+    }
+  ]
+}
+{% endschema %}

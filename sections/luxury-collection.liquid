@@ -1,0 +1,166 @@
+
+{{ 'luxury-core.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .luxury-collection {
+    padding: var(--spacing-grid) 0;
+  }
+  
+  .luxury-collection__header {
+    text-align: center;
+    margin-bottom: var(--spacing-grid);
+    padding: 0 2rem;
+  }
+  
+  .luxury-collection__title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .luxury-collection__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem; /* Tight gap for modern look, or use large gap */
+    padding: 0 1rem;
+  }
+  
+  @media screen and (min-width: 750px) {
+    .luxury-collection__grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      padding: 0 4rem;
+    }
+  }
+
+  .luxury-product-card {
+    position: relative;
+    group: hover;
+  }
+  
+  .luxury-product-card__media {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3/4; /* Classic fashion ratio */
+    background: #f5f5f5;
+  }
+  
+  .luxury-product-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1s var(--ease-luxury);
+  }
+  
+  .luxury-product-card:hover .luxury-product-card__media img {
+    transform: scale(1.05);
+  }
+  
+  .luxury-product-card__info {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+  
+  .luxury-product-card__title {
+    font-family: var(--font-body-family);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 0.5rem;
+    color: var(--luxury-black);
+    text-decoration: none;
+    display: block;
+  }
+  
+  .luxury-product-card__price {
+    font-family: var(--font-body-family);
+    font-size: 1rem;
+    color: #666;
+  }
+{%- endstyle -%}
+
+<div class="luxury-collection">
+  <div class="luxury-collection__header">
+    <h2 class="luxury-collection__title h2">{{ section.settings.title }}</h2>
+    {%- if section.settings.link_label != blank -%}
+      <a href="{{ section.settings.collection.url | default: '#' }}" class="link underlined-link">
+        {{ section.settings.link_label }}
+      </a>
+    {%- endif -%}
+  </div>
+
+  <div class="luxury-collection__grid">
+    {%- assign collection = section.settings.collection -%}
+    {%- for product in collection.products limit: section.settings.products_to_show -%}
+      <div class="luxury-product-card">
+        <a href="{{ product.url }}" class="luxury-product-card__media">
+          <img
+            src="{{ product.featured_media | image_url: width: 800 }}"
+            alt="{{ product.featured_media.alt | escape }}"
+            loading="lazy"
+            width="800"
+            height="1066"
+          >
+        </a>
+        <div class="luxury-product-card__info">
+          <a href="{{ product.url }}" class="luxury-product-card__title">{{ product.title }}</a>
+          <div class="luxury-product-card__price">{{ product.price | money }}</div>
+        </div>
+      </div>
+    {%- else -%}
+      {%- for i in (1..4) -%}
+        <div class="luxury-product-card">
+          <div class="luxury-product-card__media">
+            {{ 'product-' | append: i | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+          <div class="luxury-product-card__info">
+            <div class="luxury-product-card__title">Luxury Product {{ i }}</div>
+            <div class="luxury-product-card__price">$450.00</div>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Luxury Collection",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Featured Collection",
+      "label": "Heading"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 2,
+      "default": 4,
+      "label": "Products to show"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "default": "Shop All",
+      "label": "Link label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Collection"
+    }
+  ]
+}
+{% endschema %}

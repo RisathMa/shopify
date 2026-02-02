@@ -1,0 +1,242 @@
+
+{{ 'luxury-core.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .luxury-hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    color: {{ section.settings.text_color }};
+  }
+
+  .luxury-hero__media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .luxury-hero__media img,
+  .luxury-hero__media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  }
+  
+  .luxury-hero__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0, {{ section.settings.overlay_darkness | divided_by: 100.0 }});
+    z-index: 2;
+  }
+
+  .luxury-hero__content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    padding: 0 2rem;
+  }
+
+  .luxury-hero__heading {
+    font-size: 5rem;
+    margin-bottom: 2rem;
+    line-height: 1;
+    transform: translateY(30px);
+    opacity: 0;
+    animation: luxuryFadeUp 1s var(--ease-luxury) forwards;
+    animation-delay: 0.2s;
+  }
+
+  @media screen and (min-width: 750px) {
+    .luxury-hero__heading {
+      font-size: 8rem;
+    }
+  }
+
+  .luxury-hero__subheading {
+    font-size: 1.5rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 4rem;
+    transform: translateY(30px);
+    opacity: 0;
+    animation: luxuryFadeUp 1s var(--ease-luxury) forwards;
+    animation-delay: 0.4s;
+  }
+
+  .luxury-hero__buttons {
+    display: flex;
+    gap: 2rem;
+    transform: translateY(30px);
+    opacity: 0;
+    animation: luxuryFadeUp 1s var(--ease-luxury) forwards;
+    animation-delay: 0.6s;
+  }
+  
+  .luxury-hero__scroll {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    opacity: 0;
+    animation: luxuryFadeIn 2s ease forwards;
+    animation-delay: 1.5s;
+    color: white;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  @keyframes luxuryFadeUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes luxuryFadeIn {
+    to { opacity: 0.8; }
+  }
+{%- endstyle -%}
+
+<div class="luxury-hero">
+  <div class="luxury-hero__media">
+    {%- if section.settings.video_url != blank -%}
+      <video autoplay muted loop playsinline poster="{{ section.settings.image | image_url }}">
+        <source src="{{ section.settings.video_url }}" type="video/mp4">
+      </video>
+    {%- elsif section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 3840 | image_tag: 
+         loading: 'eager', 
+         sizes: '100vw', 
+         widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840' 
+      }}
+    {%- else -%}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </div>
+
+  <div class="luxury-hero__overlay"></div>
+
+  <div class="luxury-hero__content">
+    {%- if section.settings.subheading != blank -%}
+      <div class="luxury-hero__subheading">{{ section.settings.subheading }}</div>
+    {%- endif -%}
+    
+    {%- if section.settings.heading != blank -%}
+      <h2 class="luxury-hero__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    
+    <div class="luxury-hero__buttons">
+      {%- if section.settings.button_label_1 != blank -%}
+        <a href="{{ section.settings.button_link_1 }}" class="button button--primary">
+          {{ section.settings.button_label_1 }}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.button_label_2 != blank -%}
+        <a href="{{ section.settings.button_link_2 }}" class="button button--secondary">
+          {{ section.settings.button_label_2 }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+  
+  <div class="luxury-hero__scroll">Scrolldown</div>
+</div>
+
+{% schema %}
+{
+  "name": "Luxury Hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Cover Image"
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Video URL (MP4)",
+      "info": "Hosted video URL (recommended) or use standard video section for YouTube/Vimeo"
+    },
+    {
+      "type": "range",
+      "id": "overlay_darkness",
+      "min": 0,
+      "max": 90,
+      "step": 10,
+      "unit": "%",
+      "label": "Overlay Darkness",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "New Collection",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "default": "Autumn / Winter 2026",
+      "label": "Subheading"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "default": "#FFFFFF",
+      "label": "Text Color"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "default": "Shop Women",
+      "label": "Button 1 Label"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "Button 1 Link"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "default": "Shop Men",
+      "label": "Button 2 Label"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Button 2 Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Hero"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,81 @@
+{% comment %}
+  Luxury Product Media Gallery
+  - Vertical scroll for desktop
+  - Swipe for mobile
+  - Zoom on click/hover
+{% endcomment %}
+
+{%- if product.media.size > 0 -%}
+  <div class="luxury-media-gallery" id="LuxuryMediaGallery-{{ section.id }}">
+    {%- for media in product.media -%}
+      <div class="luxury-media-gallery__item" data-media-id="{{ media.id }}">
+        
+        {%- if media.media_type == 'image' -%}
+          <div class="luxury-media-gallery__image-wrapper">
+             <img
+              src="{{ media.preview_image | image_url: width: 2000 }}"
+              alt="{{ media.alt | escape }}"
+              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+              width="2000"
+              height="{{ 2000 | divided_by: media.preview_image.aspect_ratio | ceil }}"
+              sizes="(min-width: 750px) 60vw, 100vw"
+              class="luxury-media-image"
+            >
+          </div>
+        {%- elsif media.media_type == 'video' or media.media_type == 'external_video' -%}
+          <div class="luxury-media-gallery__video-wrapper">
+            {{ media | video_tag: controls: true, loop: true, autoplay: true, image_size: '2000x' }}
+          </div>
+        {%- endif -%}
+
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <style>
+    .luxury-media-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .luxury-media-gallery__item {
+      width: 100%;
+    }
+
+    .luxury-media-gallery__image-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      background: #fcfbf9;
+    }
+
+    .luxury-media-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.5s ease;
+      cursor: zoom-in;
+    }
+
+    /* Cinematic Zoom Hover */
+    .luxury-media-gallery__image-wrapper:hover .luxury-media-image {
+      transform: scale(1.03);
+    }
+    
+    @media screen and (max-width: 749px) {
+      .luxury-media-gallery {
+        flex-direction: row;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 0;
+      }
+      
+      .luxury-media-gallery__item {
+        flex: 0 0 100%;
+        scroll-snap-align: start;
+      }
+    }
+  </style>
+{%- endif -%}
