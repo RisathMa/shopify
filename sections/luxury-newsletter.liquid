@@ -1,0 +1,161 @@
+
+{{ 'luxury-core.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .luxury-newsletter-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+  }
+
+  .luxury-newsletter-popup.is-visible {
+    display: flex;
+  }
+
+  .luxury-newsletter-card {
+    width: 90%;
+    max-width: 800px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    animation: luxuryZoomIn 0.6s var(--ease-luxury);
+  }
+
+  @media screen and (min-width: 750px) {
+    .luxury-newsletter-card {
+      flex-direction: row;
+      height: 500px;
+    }
+  }
+
+  .luxury-newsletter__image {
+    flex: 1;
+    background: #eee;
+  }
+  
+  .luxury-newsletter__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .luxury-newsletter__content {
+    flex: 1;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .luxury-newsletter__close {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    z-index: 10;
+  }
+
+  .luxury-newsletter__title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .luxury-newsletter__input {
+    width: 100%;
+    padding: 1.5rem;
+    border: 1px solid #e5e5e5;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    border-radius: 0;
+  }
+
+  @keyframes luxuryZoomIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+{%- endstyle -%}
+
+<div class="luxury-newsletter-popup" id="LuxuryNewsletter">
+  <div class="luxury-newsletter-card">
+    <div class="luxury-newsletter__close" onclick="closeNewsletter()">×</div>
+    
+    <div class="luxury-newsletter__image small-hide">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 800 | image_tag }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
+
+    <div class="luxury-newsletter__content">
+      <h2 class="luxury-newsletter__title h2">{{ section.settings.heading }}</h2>
+      <p style="margin-bottom: 3rem; color: #666;">{{ section.settings.text }}</p>
+      
+      {% form 'customer' %}
+        <input type="email" class="luxury-newsletter__input" placeholder="Enter your email" required>
+        <button type="submit" class="button" style="width: 100%;">Join the Atelier</button>
+      {% endform %}
+      
+      <p style="font-size: 0.8rem; margin-top: 2rem; color: #999;">By joining, you agree to our privacy policy.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  function closeNewsletter() {
+    document.getElementById('LuxuryNewsletter').classList.remove('is-visible');
+    localStorage.setItem('luxury_newsletter_closed', 'true');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!localStorage.getItem('luxury_newsletter_closed')) {
+      setTimeout(() => {
+        document.getElementById('LuxuryNewsletter').classList.add('is-visible');
+      }, 5000); // Trigger after 5 seconds
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Luxury Newsletter",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Popup Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Join the Elite",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "default": "Subscribe to receive exclusive access to our new collections and seasonal events.",
+      "label": "Subtext"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Newsletter"
+    }
+  ]
+}
+{% endschema %}
