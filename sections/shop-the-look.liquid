@@ -1,0 +1,145 @@
+
+{{ 'luxury-core.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .shop-the-look {
+    padding: var(--spacing-editorial) 0;
+    background: #fff;
+  }
+
+  .shop-the-look__container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4rem;
+  }
+
+  .shop-the-look__image-wrapper {
+    flex: 1 1 50%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shop-the-look__hotspot {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+
+  .shop-the-look__hotspot:hover {
+    transform: scale(1.2);
+  }
+
+  .shop-the-look__hotspot::after {
+    content: '+';
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .shop-the-look__products {
+    flex: 1 1 35%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .shop-the-look__product-card {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.3s ease;
+  }
+
+  .shop-the-look__product-card:hover {
+    opacity: 0.7;
+  }
+
+  .shop-the-look__product-image {
+    width: 100px;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+
+  .shop-the-look__product-title {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    margin: 0;
+  }
+{%- endstyle -%}
+
+<div class="shop-the-look page-width luxury-reveal">
+  <div class="shop-the-look__container">
+    <div class="shop-the-look__image-wrapper">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'lazy' }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+      
+      {% comment %} Example Hotspots {% endcomment %}
+      <div class="shop-the-look__hotspot" style="top: 30%; left: 45%;"></div>
+      <div class="shop-the-look__hotspot" style="top: 60%; left: 55%;"></div>
+    </div>
+
+    <div class="shop-the-look__products">
+      <h2 class="h1">Shop The Look</h2>
+      {%- for product in section.settings.collection.products limit: 3 -%}
+        <a href="{{ product.url }}" class="shop-the-look__product-card">
+          <img src="{{ product.featured_image | image_url: width: 200 }}" class="shop-the-look__product-image">
+          <div>
+            <h3 class="shop-the-look__product-title">{{ product.title }}</h3>
+            <span>{{ product.price | money }}</span>
+          </div>
+        </a>
+      {%- else -%}
+        {%- for i in (1..2) -%}
+          <div class="shop-the-look__product-card">
+             <div style="width: 100px; height: 100px; background: #eee;"></div>
+             <div>
+                <h3 class="shop-the-look__product-title">Luxury Item {{ i }}</h3>
+                <span>$299.00</span>
+             </div>
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+      
+      <a href="{{ section.settings.collection.url }}" class="button">Shop Full Look</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Shop The Look",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Main Editorial Image"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Products to Show"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop The Look"
+    }
+  ]
+}
+{% endschema %}
